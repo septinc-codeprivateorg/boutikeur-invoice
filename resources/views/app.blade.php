@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Crater - Self Hosted Invoicing Platform</title>
+    <title>{{ config('app.name') }} - Self Hosted Invoicing Platform</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
     <link rel="manifest" href="/favicons/site.webmanifest">
-    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5851d8">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#fc6a03">
     <link rel="shortcut icon" href="/favicons/favicon.ico">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-config" content="/favicons/browserconfig.xml">
@@ -40,22 +40,22 @@
     <script type="module">
         @if(isset($customer_logo))
 
-        window.customer_logo = "/storage/{{$customer_logo}}"
+            window.customer_logo = "/storage/{{$customer_logo}}"
 
         @endif
         @if(isset($login_page_logo))
 
-        window.login_page_logo = "/storage/{{$login_page_logo}}"
+            window.login_page_logo = "/storage/{{$login_page_logo}}"
 
         @endif
         @if(isset($login_page_heading))
 
-        window.login_page_heading = "{{$login_page_heading}}"
+            window.login_page_heading = "{{$login_page_heading}}"
 
         @endif
         @if(isset($login_page_description))
 
-        window.login_page_description = "{{$login_page_description}}"
+            window.login_page_description = "{{$login_page_description}}"
 
         @endif
         window.Crater.start()

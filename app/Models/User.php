@@ -16,6 +16,9 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @method static where(string $string, mixed $username)
+ */
 class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
@@ -315,8 +318,8 @@ class User extends Authenticatable implements HasMedia
         });
     }
 
-    public function isOwner()
-    {
+    public function isOwner(): bool
+	{
         if (Schema::hasColumn('companies', 'owner_id')) {
             $company = Company::find(request()->header('company'));
 

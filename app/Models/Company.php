@@ -252,8 +252,8 @@ class Company extends Model implements HasMedia
         CompanySetting::setSettings($settings, $this->id);
     }
 
-    public function setupDefaultData()
-    {
+    public function setupDefaultData(): bool
+	{
         $this->setupRoles();
         $this->setupDefaultPaymentMethods();
         $this->setupDefaultUnits();
@@ -262,8 +262,8 @@ class Company extends Model implements HasMedia
         return true;
     }
 
-    public function deleteCompany($user)
-    {
+    public function deleteCompany($user): bool
+	{
         if ($this->exchangeRateLogs()->exists()) {
             $this->exchangeRateLogs()->delete();
         }

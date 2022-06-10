@@ -9,30 +9,31 @@ class Module
      *
      * @var array
      */
-    public static $scripts = [];
+    public static array $scripts = [];
 
     /**
      * All of the registered company settings.
      *
      * @var array
      */
-    public static $settings = [];
+    public static array $settings = [];
 
     /**
      * All of the registered Modules CSS.
      *
      * @var array
      */
-    public static $styles = [];
+    public static array $styles = [];
 
     /**
      * Register the given script file with Module.
      *
-     * @param  string  $name
-     * @param  string  $path
+     * @param string $name
+     * @param string $path
+     *
      * @return static
      */
-    public static function script($name, $path)
+    public static function script(string $name, string $path): Module
     {
         static::$scripts[$name] = $path;
 
@@ -46,7 +47,7 @@ class Module
      * @param  string  $path
      * @return static
      */
-    public static function style($name, $path)
+    public static function style(string $name, string $path): Module
     {
         static::$styles[$name] = $path;
 
@@ -58,7 +59,7 @@ class Module
      *
      * @return array
      */
-    public static function allScripts()
+    public static function allScripts(): array
     {
         return static::$scripts;
     }
@@ -68,7 +69,7 @@ class Module
      *
      * @return array
      */
-    public static function allStyles()
+    public static function allStyles(): array
     {
         return static::$styles;
     }

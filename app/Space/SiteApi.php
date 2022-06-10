@@ -4,12 +4,16 @@ namespace Crater\Space;
 
 use Crater\Models\Setting;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 
 // Implementation taken from Akaunting - https://github.com/akaunting/akaunting
 trait SiteApi
 {
-    protected static function getRemote($url, $data = [], $token = null)
+	/**
+	 * @throws GuzzleException
+	 */
+	protected static function getRemote($url, $data = [], $token = null)
     {
         $client = new Client(['verify' => false, 'base_uri' => config('crater.base_url').'/']);
 

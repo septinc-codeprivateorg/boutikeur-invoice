@@ -1232,7 +1232,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3|^8.0"
+                "php": "^7.3 || ^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^v2.15.8",

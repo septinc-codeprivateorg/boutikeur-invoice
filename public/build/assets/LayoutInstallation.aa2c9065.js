@@ -1,0 +1,1 @@
+import{N as t}from"./NotificationRoot.cb01312c.js";import{r as s,o as c,e as r,f as o,h as a}from"./vendor.1f5ca20c.js";import"./main.5b3dbb25.js";const n={class:"h-screen h-screen-ios overflow-y-auto text-base"},i={class:"container mx-auto px-4"},u={setup(_){return(m,p)=>{const e=s("router-view");return c(),r("div",n,[o(t),a("div",i,[o(e)])])}}};export{u as default};

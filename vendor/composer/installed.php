@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'a2c16ba3aab37c5d42c50166222d55c8106d8009',
+        'reference' => '0e9f9449b871f3c4c2bac40544e136d4cffbdc2f',
         'name' => 'crater-invoice/crater',
         'dev' => true,
     ),
@@ -166,7 +166,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'a2c16ba3aab37c5d42c50166222d55c8106d8009',
+            'reference' => '0e9f9449b871f3c4c2bac40544e136d4cffbdc2f',
             'dev_requirement' => false,
         ),
         'crater-invoice/modules' => array(
@@ -1204,8 +1204,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(

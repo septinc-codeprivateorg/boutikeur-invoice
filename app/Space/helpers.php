@@ -34,25 +34,26 @@ function get_customer_logo($company_id)
 }
 
 
-/**
- * Get current admin portal logo
- *
- * @param $company_id
- * @return string
- */
-function get_login_page_logo()
-{
-    if (\Storage::disk('local')->has('database_created')) {
-        return Setting::getSetting('login_page_logo');
-    }
-}
+	/**
+	 * Get current admin portal logo
+	 *
+	 * @return Setting
+	 */
+	function get_login_page_logo(): ?Setting
+	{
+		if (\Storage::disk('local')->has('database_created')) {
+			return Setting::getSetting('login_page_logo');
+		}
+
+		return null;
+	}
 
 /**
  * Get current admin theme
  *
  * @return string
  */
-function get_admin_portal_theme()
+function get_admin_portal_theme(): string
 {
     if (\Storage::disk('local')->has('database_created')) {
         $setting = Setting::getSetting('admin_portal_theme');

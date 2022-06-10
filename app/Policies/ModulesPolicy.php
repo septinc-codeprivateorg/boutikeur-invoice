@@ -9,8 +9,8 @@ class ModulesPolicy
 {
     use HandlesAuthorization;
 
-    public function manageModules(User $user)
-    {
+    public function manageModules(User $user): bool
+	{
         if ($user->isOwner()) {
             return true;
         }

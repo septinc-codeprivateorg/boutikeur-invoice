@@ -8,8 +8,11 @@ use Crater\Events\ModuleInstalledEvent;
 use Crater\Http\Resources\ModuleResource;
 use Crater\Models\Module as ModelsModule;
 use Crater\Models\Setting;
+use Exception;
 use File;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\JsonResponse;
 use Nwidart\Modules\Facades\Module;
 use ZipArchive;
 
@@ -18,10 +21,13 @@ class ModuleInstaller
 {
     use SiteApi;
 
-    public static function getModules()
+	/**
+	 * @throws GuzzleException
+	 */
+	public static function getModules()
     {
         $data = null;
-        if (env('APP_ENV') === 'development') {
+        if (config('app.env') === 'development') {
             $url = 'api/marketplace/modules?is_dev=1';
         } else {
             $url = 'api/marketplace/modules';
@@ -43,10 +49,13 @@ class ModuleInstaller
         return ModuleResource::collection(collect($data->modules));
     }
 
-    public static function getModule($module)
+	/**
+	 * @throws GuzzleException
+	 */
+	public static function getModule($module)
     {
         $data = null;
-        if (env('APP_ENV') === 'development') {
+        if (config('app.env') === 'development') {
             $url = 'api/marketplace/modules/'.$module.'?is_dev=1';
         } else {
             $url = 'api/marketplace/modules/'.$module;
@@ -63,9 +72,7 @@ class ModuleInstaller
             $data = $response->getBody()->getContents();
         }
 
-        $data = json_decode($data);
-
-        return $data;
+		return json_decode($data);
     }
 
     public static function upload($request)
@@ -77,21 +84,22 @@ class ModuleInstaller
             File::makeDirectory($temp_dir);
         }
 
-        $path = $request->file('avatar')->storeAs(
-            'temp-'.md5(mt_rand()),
-            $request->module.'.zip',
-            'local'
-        );
-
-        return $path;
+		return $request->file('avatar')->storeAs(
+			'temp-'.md5(mt_rand()),
+			$request->module.'.zip',
+			'local'
+		);
     }
 
-    public static function download($module, $version)
+	/**
+	 * @throws GuzzleException
+	 */
+	public static function download($module, $version)
     {
         $data = null;
         $path = null;
 
-        if (env('APP_ENV') === 'development') {
+        if (config('app.env') === 'development') {
             $url = "api/marketplace/modules/file/{$module}?version={$version}&is_dev=1";
         } else {
             $url = "api/marketplace/modules/file/{$module}?version={$version}";
@@ -129,7 +137,7 @@ class ModuleInstaller
         $zip_file_path = $temp_dir.'/upload.zip';
 
         // Add content to the Zip file
-        $uploaded = is_int(file_put_contents($zip_file_path, $data)) ? true : false;
+        $uploaded = is_int(file_put_contents($zip_file_path, $data));
 
         if (! $uploaded) {
             return false;
@@ -141,10 +149,13 @@ class ModuleInstaller
         ];
     }
 
-    public static function unzip($module, $zip_file_path)
-    {
+	/**
+	 * @throws Exception
+	 */
+	public static function unzip($module, $zip_file_path): string
+	{
         if (! file_exists($zip_file_path)) {
-            throw new \Exception('Zip file not found');
+            throw new Exception('Zip file not found');
         }
 
         $temp_extract_dir = storage_path('app/temp2-'.md5(mt_rand()));
@@ -167,8 +178,8 @@ class ModuleInstaller
         return $temp_extract_dir;
     }
 
-    public static function copyFiles($module, $temp_extract_dir)
-    {
+    public static function copyFiles($module, $temp_extract_dir): bool
+	{
         if (! File::isDirectory(base_path('Modules'))) {
             File::makeDirectory(base_path('Modules'));
         }
@@ -188,8 +199,8 @@ class ModuleInstaller
         return true;
     }
 
-    public static function deleteFiles($json)
-    {
+    public static function deleteFiles($json): bool
+	{
         $files = json_decode($json);
 
         foreach ($files as $file) {
@@ -199,8 +210,8 @@ class ModuleInstaller
         return true;
     }
 
-    public static function complete($module, $version)
-    {
+    public static function complete($module, $version): bool
+	{
         Module::register();
 
         Artisan::call("module:migrate $module --force");
@@ -215,9 +226,13 @@ class ModuleInstaller
         return true;
     }
 
-    public static function checkToken(String $token)
-    {
+	/**
+	 * @throws GuzzleException
+	 */
+	public static function checkToken(String $token): JsonResponse
+	{
         $url = 'api/marketplace/ping';
+
         $response = static::getRemote($url, ['timeout' => 100, 'track_redirects' => true], $token);
 
         if ($response && ($response->getStatusCode() == 200)) {
